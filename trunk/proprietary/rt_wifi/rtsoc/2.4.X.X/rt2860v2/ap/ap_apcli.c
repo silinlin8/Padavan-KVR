@@ -809,7 +809,7 @@ VOID ApCliIfMonitor(
 	{
 		pApCliEntry = &pAd->ApCfg.ApCliTab[index];
 		if ((pApCliEntry->Valid == TRUE)
-			&& (RTMP_TIME_AFTER(pAd->Mlme.Now32 , (pApCliEntry->ApCliRcvBeaconTime + (12 * OS_HZ)))))
+			&& (RTMP_TIME_AFTER(pAd->Mlme.Now32 , (pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))))
 		{
 			printk("ApCliIfMonitor: IF(%s%d) - no Beacon is received from Root-AP.\n", INF_APCLI_DEV_NAME, index);
 			DBGPRINT(RT_DEBUG_TRACE, ("ApCliIfMonitor: Reconnect the Root-Ap again.\n"));

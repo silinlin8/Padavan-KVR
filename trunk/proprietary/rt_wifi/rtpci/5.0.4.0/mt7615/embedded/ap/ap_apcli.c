@@ -93,7 +93,7 @@ VOID ApCliSimulateRecvBeacon(RTMP_ADAPTER *pAd)
 			      the beacon of the AP. So, here we simulate that we received the beacon.
 			     */
 			if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS) &&
-				(RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (1 * OS_HZ)))) {
+				(RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))) {
 				BPtoJiffies = (((pApCliEntry->ApCliBeaconPeriod * 1024 / 1000) * OS_HZ) / 1000);
 				timeDiff = (pAd->Mlme.Now32 - pApCliEntry->ApCliRcvBeaconTime) / BPtoJiffies;
 
@@ -1764,7 +1764,7 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
 
 			if ((IS_AKM_WPA_CAPABILITY(pMacEntry->SecConfig.AKMMap))
 				&& (tr_entry->PortSecured != WPA_802_1X_PORT_SECURED)
-				&& (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliLinkUpTime + (30 * OS_HZ))))) {
+				&& (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliLinkUpTime + (60 * OS_HZ))))) {
 				bWpa_4way_too_log = TRUE;
 				bForceBrocken = TRUE;
 			}
@@ -1772,26 +1772,26 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
 			{
 #ifdef CONFIG_MULTI_CHANNEL
 				/* increase to 12 */
-				if (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliRcvBeaconTime + (12 * OS_HZ)))) {
+				if (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))) {
 #else
 #ifdef MT7615
 #ifdef RACTRL_FW_OFFLOAD_SUPPORT
 
 				if (cap->fgRateAdaptFWOffload == TRUE) {
-					if ((RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (1 * OS_HZ)))
-						&& (RTMP_TIME_BEFORE(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (3 * OS_HZ)))) {
+					if ((RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))
+						&& (RTMP_TIME_BEFORE(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))) {
 						pMacEntry->TxStatRspCnt = 0;
 						pMacEntry->TotalTxSuccessCnt = 0;
 					}
 
-					if (RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (1 * OS_HZ)))
+					if (RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))
 						HW_GET_TX_STATISTIC(pAd, GET_TX_STAT_ENTRY_TX_CNT, pMacEntry->wcid);
 				}
 
 #endif /* RACTRL_FW_OFFLOAD_SUPPORT */
 #endif /* MT7615 */
 
-				if (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliRcvBeaconTime + (6 * OS_HZ)))) {
+				if (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))) {
 #endif /* CONFIG_MULTI_CHANNEL */
 #ifdef MT7615
 #ifdef RACTRL_FW_OFFLOAD_SUPPORT
@@ -1805,7 +1805,7 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
 			Example, BW is configured for 80 MHz, Root AP switches primary channel from 36 to 40,
 			NULL packet transmits will happen in 80 MHz only*/
 						if ((pApCliEntry->wdev.channel > 14) && (pMacEntry->MaxHTPhyMode.field.BW > 0) &&
-							(RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliRcvBeaconTime_MlmeEnqueueForRecv + (6 * OS_HZ))))) {
+							(RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApCliRcvBeaconTime_MlmeEnqueueForRecv + (60 * OS_HZ))))) {
 
 								bBeacon_miss = TRUE;
 								bForceBrocken = TRUE;

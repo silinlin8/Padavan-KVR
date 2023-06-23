@@ -84,7 +84,7 @@ VOID ApCliSimulateRecvBeacon(RTMP_ADAPTER *pAd)
                           the beacon of the AP. So, here we simulate that we received the beacon.
                          */
                         if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS) &&
-                            (RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (1 * OS_HZ))))
+                            (RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ))))
                         {
                         	BPtoJiffies = (((pApCliEntry->ApCliBeaconPeriod * 1024 / 1000) * OS_HZ) / 1000);
                                 timeDiff = (pAd->Mlme.Now32 - pApCliEntry->ApCliRcvBeaconTime) / BPtoJiffies;
@@ -1874,14 +1874,14 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
 
 			if ((IS_AKM_WPA_CAPABILITY(pMacEntry->SecConfig.AKMMap))
 				&& (tr_entry->PortSecured != WPA_802_1X_PORT_SECURED)
-				&& (RTMP_TIME_AFTER(pAd->Mlme.Now32 , (pApCliEntry->ApCliLinkUpTime + (30 * OS_HZ))))) {
+				&& (RTMP_TIME_AFTER(pAd->Mlme.Now32 , (pApCliEntry->ApCliLinkUpTime + (60 * OS_HZ))))) {
 				bWpa_4way_too_log = TRUE;
 				bForceBrocken = TRUE;
 			}
 			// Generic Change done by Kun-ze in WHC codebase for improving Beacon loss detection logic, so keeping in easy enabled case
 #ifdef CONFIG_MULTI_CHANNEL
 			//increase to 12
-			if (RTMP_TIME_AFTER(pAd->Mlme.Now32 , (pApCliEntry->ApCliRcvBeaconTime + (12 * OS_HZ)))) {
+			if (RTMP_TIME_AFTER(pAd->Mlme.Now32 , (pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))) {
 #ifdef WH_EZ_SETUP
 				if(IS_EZ_SETUP_ENABLED(&pApCliEntry->wdev)) {
 #ifdef EZ_MOD_SUPPORT 
@@ -1913,7 +1913,7 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
 					(tr_entry->PortSecured == WPA_802_1X_PORT_SECURED))
 			{		  
 				if (!pMacEntry->bTxPktChk &&
-						(RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (1 * OS_HZ))))
+						(RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ))))
 				{
 					pMacEntry->bTxPktChk = TRUE;
 					pMacEntry->TxStatRspCnt = 0;
@@ -1930,7 +1930,7 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
 					}
 					else
 					{
-						if(RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (4 * OS_HZ)))
+						if(RTMP_TIME_AFTER(pAd->Mlme.Now32, pApCliEntry->ApCliRcvBeaconTime + (60 * OS_HZ)))
 						{
 							HW_GET_TX_STATISTIC(pAd, GET_TX_STAT_ENTRY_TX_CNT, pMacEntry->wcid);
 							if ((pMacEntry->TxStatRspCnt >= 1))

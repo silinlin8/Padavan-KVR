@@ -2777,14 +2777,14 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
 
 			if ((IS_AKM_WPA_CAPABILITY(pMacEntry->SecConfig.AKMMap))
 				&& (tr_entry->PortSecured != WPA_802_1X_PORT_SECURED)
-				&& (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApcliInfStat.ApCliLinkUpTime + (30 * OS_HZ))))) {
+				&& (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApcliInfStat.ApCliLinkUpTime + (60 * OS_HZ))))) {
 				bWpa_4way_too_log = TRUE;
 				bForceBrocken = TRUE;
 			}
 
 			if (!pApCliEntry->PwrMgmt.bDoze) {
 				if (RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApcliInfStat.ApCliRcvBeaconTime +
-						 (12 * OS_HZ)))) {
+						 (60 * OS_HZ)))) {
 					MTWF_LOG(DBG_CAT_CLIENT, CATCLIENT_APCLI, DBG_LVL_ERROR,
 						("STA Beacon loss condition got hit.\n"));
 #ifdef RACTRL_FW_OFFLOAD_SUPPORT
@@ -2806,7 +2806,7 @@ fds
 				Example, BW is configured for 80 MHz, Root AP switches primary channel from 36 to 40,
 				NULL packet transmits will happen in 80 MHz only*/
 				if ((pApCliEntry->wdev.channel > 14) && (pMacEntry->MaxHTPhyMode.field.BW > 0) &&
-					(RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApcliInfStat.ApCliRcvBeaconTime_MlmeEnqueueForRecv) + (6 * OS_HZ)))) {
+					(RTMP_TIME_AFTER(pAd->Mlme.Now32, (pApCliEntry->ApcliInfStat.ApCliRcvBeaconTime_MlmeEnqueueForRecv) + (60 * OS_HZ)))) {
 
 						bBeacon_miss = TRUE;
 						bForceBrocken = TRUE;
